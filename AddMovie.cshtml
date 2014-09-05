@@ -1,0 +1,21 @@
+﻿@{
+    var MovieName="";
+    var MovieGenre="";
+    var MovieYear="";
+    if(IsPost){
+        MovieName=Request["formName"];
+        MovieGenre=Request["formGenre"];
+        MovieYear=Request["formYear"];
+        var SQLINSERT = "INSERT INTO Favorites (Name, Genre, ReleaseYear) VALUES (@0, @1, @2)";
+        var db = Database.Open("Movies");
+        db.Execute(SQLINSERT, MovieName, MovieGenre, MovieYear);
+        Response.Redirect("Default.cshtml");
+    }
+}
+<h1>Add a New Movie to the database</h1>
+<form action="" method="post">
+    <p>Name:<br/><input type="text" name="formName" /></p>
+    <p>Category:<br/><input type="text" name="formGenre" /></p>
+    <p>Year:<br/><input type="text" name="formYear" /></p>
+    <p><input type="submit" value="Add Movie" /></p>
+</form>

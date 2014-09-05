@@ -1,0 +1,24 @@
+﻿@{
+    var id=Request["id"];
+    var SQLSELECT = "SELECT * FROM Favorites where ID=@0";
+    var db = Database.Open("Movies");
+    var Movie = db.QuerySingle(SQLSELECT,id);
+    var MovieName=Movie.Name;
+    var MovieGenre=Movie.Genre;
+    var MovieYear=Movie.ReleaseYear;
+    if(IsPost){
+        MovieName=Request["formName"];
+        MovieGenre=Request["formCategory"];
+        MovieYear=Request["formYear"];
+        var SQLUPDATE = "UPDATE Favorites Set Name=@0, Genre=@1, ReleaseYear=@2 WHERE id=@3";
+        db.Execute(SQLUPDATE, MovieName, MovieGenre, MovieYear,id);
+        Response.Redirect("Default.cshtml");
+    }
+}
+<h1>Edit a movie</h1>
+<form action="" method="post">
+    <p>Name:<br/><input type="text" name="formName" value="@MovieName" /></p>
+    <p>Genre:<br/><input type="text" name="formCategory" value="@MovieGenre" /></p>
+    <p>Year:<br/><input type="text" name="formYear" value="@MovieYear" /></p>
+    <p><input type="submit" value="Edit Movie" /></p>
+</form>
