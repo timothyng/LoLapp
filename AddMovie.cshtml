@@ -2,13 +2,15 @@
     var MovieName="";
     var MovieGenre="";
     var MovieYear="";
+    var SummonerName="";
     if(IsPost){
         MovieName=Request["formName"];
         MovieGenre=Request["formGenre"];
         MovieYear=Request["formYear"];
-        var SQLINSERT = "INSERT INTO Favorites (Name, Genre, ReleaseYear) VALUES (@0, @1, @2)";
+        SummonerName = Json.Encode(WebRequest.Create("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/codebliss?api_key=cc414580-c562-4f62-a74a-a1a8076e7a59"));
+        var SQLINSERT = "INSERT INTO Favorites (Name, Genre, ReleaseYear, SummonerName) VALUES (@0, @1, @2, @3)";
         var db = Database.Open("Movies");
-        db.Execute(SQLINSERT, MovieName, MovieGenre, MovieYear);
+        db.Execute(SQLINSERT, MovieName, MovieGenre, MovieYear, SummonerName);
         Response.Redirect("Default.cshtml");
     }
 }
@@ -17,5 +19,6 @@
     <p>Name:<br/><input type="text" name="formName" /></p>
     <p>Category:<br/><input type="text" name="formGenre" /></p>
     <p>Year:<br/><input type="text" name="formYear" /></p>
+    <p id="summonerName">Summoner Name:<br/><input type="text" name="summonerName" /></p>
     <p><input type="submit" value="Add Movie" /></p>
 </form>
